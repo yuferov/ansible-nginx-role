@@ -5,4 +5,4 @@ image_name: nginx
 image_tag: stable
 nginx_name: balancer
 dest_dir: /home/vagrant/nginx.conf
-
+...
