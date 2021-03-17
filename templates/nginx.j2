@@ -1,0 +1,14 @@
+http {
+    upstream webapp {
+{% for server in server_list %}
+    server container{{ server }}:5000;
+{% endfor %}
+    }
+    server {
+         listen 8000;
+         location / {
+              proxy_pass http://webapp/;
+         }
+    }
+}
+events { }

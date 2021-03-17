@@ -1,0 +1,25 @@
+---
+    - name: pull docker image
+      docker_image:
+        source: pull
+        name: "{{ image_name }}"
+        tag: "{{ image_tag }}"
+    - name: Start balancer and exposes port for connection
+      docker_container:
+        name: "{{ nginx_name }}"
+        recreate: yes
+        image: "{{ image_name }}"
+        networks:
+          - name: "{{ network }}"
+            aliases: "{{ nginx_name }}"
+        ports:
+         - "80:8000"
+    - name: populate template
+      template:
+        src: nginx.j2
+        dest: "{{ dest_dir }}"
+    - name: copy template to balancer container
+      command: docker cp "{{ dest_dir }}" "{{ nginx_name }}":/etc/nginx/nginx.conf
+    - name: restart nginx
+      command: docker exec -it "{{ nginx_name }}" nginx -s reload
+...
