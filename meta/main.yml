@@ -1,3 +1,5 @@
 ---
-dependencies: []
+dependencies:
+  - role: yuferov.ansible_docker_role
+  - role: yuferov.ansible_webapp_role
 ...
